@@ -47,13 +47,15 @@ regd_users.post("/login", (req,res) => {
   });
 
 // Add a book review
-regd_users.put("/auth/review/:isbn", (req, res) => {
-  const review = books[review]
-    if (review) 
-        let review = review
+regd_users.post("/auth/review/:isbn", (req, res) => {
+    const isbn = req.params.isbn;
+    const bookReview = books[isbn];
+    books.push({"reviews":req.query.review})
+    res.send("A Review Has been added for"+$isbn)
 
-        if (review)  
-    
+});
+
+regd_users.put("/auth/review/:isbn", (req, res) => {
  res.send.json({message: "Yet to be implemented"});
 });
 
