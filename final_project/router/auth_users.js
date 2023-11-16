@@ -50,6 +50,7 @@ regd_users.post("/login", (req,res) => {
 regd_users.put("/auth/review/:isbn", (req, res) => {
     const isbn = req.params.isbn;
     const book = books[isbn];
+    const user = req.session.authorization.username
     if (book) {
         let reviews = req.query.review;
         
@@ -57,16 +58,22 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
             book["reviews"] = reviews
         }
         books[isbn] = book;
-        res.send(`Book with the ISBN  ${isbn} updated.`);
+        res.send(`Review for the Book  ${isbn} added/updated by ${user}.`);
     }
     else{
         res.send("Unable to find book!");
     }
   });
 
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    const isbn = req.params.isbn
+    const book = books[isbn]
+    const user = req.session.authorization.username
 
-regd_users.put("/auth/review/:isbn", (req, res) => {
- res.send.json({message: "Yet to be implemented"});
+    if (book) {
+        delete book.reviews
+    }
+    res.send(`Review for the Book  ${isbn} has been deleted by ${user}.`);
 });
 
 module.exports.authenticated = regd_users;
