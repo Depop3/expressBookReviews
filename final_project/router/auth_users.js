@@ -47,13 +47,23 @@ regd_users.post("/login", (req,res) => {
   });
 
 // Add a book review
-regd_users.post("/auth/review/:isbn", (req, res) => {
+regd_users.put("/auth/review/:isbn", (req, res) => {
     const isbn = req.params.isbn;
-    const bookReview = books[isbn];
-    books.push({"reviews":req.query.review})
-    res.send("A Review Has been added for"+$isbn)
+    const book = books[isbn];
+    if (book) {
+        let reviews = req.query.review;
+        
+        if(reviews) {
+            book["reviews"] = reviews
+        }
+        books[isbn] = book;
+        res.send(`Book with the ISBN  ${isbn} updated.`);
+    }
+    else{
+        res.send("Unable to find book!");
+    }
+  });
 
-});
 
 regd_users.put("/auth/review/:isbn", (req, res) => {
  res.send.json({message: "Yet to be implemented"});
